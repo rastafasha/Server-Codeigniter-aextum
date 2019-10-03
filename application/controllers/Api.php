@@ -926,7 +926,7 @@ public function categories()
 			
 			$id = $this->api_model->insert_newsletter($newsletterData);
 
-			$this->sendemail($newsletterData);
+			$this->sendnewsletter($newsletterData);
 			
 			$response = array('id' => $id);
 		}
@@ -1065,8 +1065,8 @@ public function categories()
 	public function sendnewsletter($newsletterData)
 	{
 		$message = '<p>Hi, <br />Alguien se ha registrado en el newsletter</p>';
-		$message .= '<p><strong>Nombre: </strong>'.$contactData['name'].'</p>';
-		$message .= '<p><strong>Email: </strong>'.$contactData['email'].'</p>';
+		$message .= '<p><strong>Nombre: </strong>'.$newsletterData['nombre'].'</p>';
+		$message .= '<p><strong>Email: </strong>'.$newsletterData['email'].'</p>';
 		$message .= '<br />Thanks';
 
 		$this->load->library('email');
@@ -1124,9 +1124,9 @@ public function categories()
 				'created_at' => date('Y-m-d H:i:s', time())
 			);
 			
-			$id = $this->api_model->insert_contact($masinfoData);
+			$id = $this->api_model->insert_masinfo($masinfoData);
 
-			$this->sendemail($masinfoData);
+			$this->sendmasinfo($masinfoData);
 			
 			$response = array('id' => $id);
 		}
@@ -1216,7 +1216,7 @@ public function categories()
 
 			$masinfo = $this->api_model->get_admin_masinfo($id);
 
-			$name = $this->input->post('title');
+			$name = $this->input->post('name');
 			$company = $this->input->post('company');
 			$email = $this->input->post('email');
 			$phone = $this->input->post('phone');
@@ -1280,7 +1280,7 @@ public function categories()
 
 	public function sendmasinfo($masinfoData)
 	{
-		$message = '<p>Hi, <br />Some one has submitted contact form.</p>';
+		$message = '<p>Hi, <br />Alguien ha solicitado mas info</p>';
 		$message .= '<p><strong>Nombre y Apellido: </strong>'.$masinfoData['name'].'</p>';
 		$message .= '<p><strong>Empresa: </strong>'.$masinfoData['company'].'</p>';
 		$message .= '<p><strong>Email: </strong>'.$masinfoData['email'].'</p>';

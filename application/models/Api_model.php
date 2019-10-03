@@ -89,6 +89,38 @@ class Api_model extends CI_Model
 		return $query->row();
 	}
 
+	
+	// masinfo
+
+	public function get_masinfos($featured, $recentpost)
+	{
+		$this->db->select('masinfo.*');
+		$this->db->from('masinfos masinfo');
+
+		if($recentpost){
+			$this->db->order_by('masinfo.created_at', 'desc');
+			$this->db->limit($recentpost);
+		}
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_masinfo($id)
+	{
+		$this->db->select('masinfo.*');
+		$this->db->from('masinfos masinfo');
+		$this->db->join('name u', 'u.id=masinfo.name');
+		$this->db->join('lastname u', 'u.id=masinfo.lastname');
+		$this->db->join('email u', 'u.id=masinfo.email');
+		$this->db->join('cargo u', 'u.id=masinfo.cargo');
+		$this->db->join('phone u', 'u.id=masinfo.phone');
+		$this->db->join('message u', 'u.id=masinfo.message');
+		$this->db->where('masinfo.id', $id);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
+	//
 
 	// gallery
 
@@ -278,6 +310,28 @@ public function deleteNewsletter($id)
 
 	
 	//
+
+	// masinfo
+public function insert_masinfo($masinfoData)
+{
+	$this->db->insert('masinfos', $masinfoData);
+	return $this->db->insert_id();
+}
+
+public function updateMasinfo($id, $masinfoData)
+{
+$this->db->where('id', $id);
+$this->db->update('masinfos', $masinfoData);
+}
+
+public function deleteMasinfo($id)
+{
+$this->db->where('id', $id);
+$this->db->delete('masinfos');
+}
+
+
+//
 // login
 	public function insert_subcritore($subcritoreData)
 	{
